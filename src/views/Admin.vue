@@ -5,6 +5,31 @@
     <a-button>已预约</a-button>
     <a-button>已取件</a-button>
     <a-button>未取件</a-button>
+  
+
+    <a-button type="primary"  shape="circle" size="large" @click="showModal">
+      添加
+    </a-button>
+
+    <a-modal
+      v-model="visible"
+      title="Title"
+      onOk="handleOk"
+    >
+      <template slot="footer">
+        <a-button key="back" @click="handleCancel">Return</a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="handleOk">
+          Submit
+        </a-button>
+      </template>
+      <p>运单号：<a-input></a-input></p>
+      <p>收件人：<a-input></a-input></p>
+      <p>电话<a-input></a-input></p>
+      <p>重量：<a-input></a-input></p>
+
+    </a-modal>
+
+
     <a-table :columns="columns" :dataSource="data">
       <a slot="name" slot-scope="text" href="javascript:;">{{text}}</a>
       <span slot="customTitle">
@@ -52,7 +77,7 @@ const columns = [
     key: "action",
     scopedSlots: { customRender: "action" }
   }
-];
+]
 
 const data = [
   {
@@ -76,14 +101,31 @@ const data = [
     status: "未取件",
     bookinkTime: ""
   }
-];
+]
 
 export default {
   data() {
     return {
       data,
-      columns
-    };
+      columns,
+      loading: false,
+      visible: false,
+    }
+  },
+    methods: {
+    showModal() {
+      this.visible = true;
+    },
+    handleOk(e) {
+      this.loading = true;
+      setTimeout(() => {
+        this.visible = false;
+        this.loading = false;
+      }, 3000);
+    },
+    handleCancel(e) {
+      this.visible = false;
+    },
   }
-};
+}
 </script>

@@ -6,7 +6,7 @@ import Vue from 'vue'
 Vue.use(VueRouter)
 
 export default new VueRouter({
-  mode: "history",
+  mode: 'history',
   routes: [
     {
       path: '/admin',
@@ -17,7 +17,7 @@ export default new VueRouter({
       path: '/user',
       name: 'User',
       component: User
-    },
+    }
 
   ]
 
