@@ -5,32 +5,33 @@
     <a-button>已预约</a-button>
     <a-button>已取件</a-button>
     <a-button>未取件</a-button>
-  
 
-    <a-button type="primary"  shape="circle" size="large" @click="showModal">
-      添加
-    </a-button>
+    <a-button type="primary" shape="circle" size="large" @click="showModal">添加</a-button>
 
-    <a-modal
-      v-model="visible"
-      title="Title"
-      onOk="handleOk"
-    >
+    <a-modal v-model="visible" title="Title" onOk="handleOk">
       <template slot="footer">
         <a-button key="back" @click="handleCancel">Return</a-button>
-        <a-button key="submit" type="primary" :loading="loading" @click="handleOk">
-          Submit
-        </a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="add">Submit</a-button>
       </template>
-      <p>运单号：<a-input></a-input></p>
-      <p>收件人：<a-input></a-input></p>
-      <p>电话<a-input></a-input></p>
-      <p>重量：<a-input></a-input></p>
-
+      <p>
+        运单号：
+        <a-input v-model="id"></a-input>
+      </p>
+      <p>
+        收件人：
+        <a-input v-model="name"></a-input>
+      </p>
+      <p>
+        电话：
+        <a-input v-model="phone"></a-input>
+      </p>
+      <p>
+        重量：
+        <a-input v-model="weight"></a-input>
+      </p>
     </a-modal>
 
-
-    <a-table :columns="columns" :dataSource="data">
+    <a-table :columns="columns" :dataSource="items" size="small">
       <a slot="name" slot-scope="text" href="javascript:;">{{text}}</a>
       <span slot="customTitle">
         <a-icon type="smile-o" />Name
@@ -46,6 +47,7 @@
   </div>
 </template>
 <script>
+import { type } from 'os';
 const columns = [
   {
     title: "订单号",
@@ -77,31 +79,12 @@ const columns = [
     key: "action",
     scopedSlots: { customRender: "action" }
   }
-]
+];
 
 const data = [
-  {
-    id: "1",
-    name: "John Brown",
-    phone: "12223445544",
-    status: "已预约",
-    bookinkTime: ""
-  },
-  {
-    id: "2",
-    name: "Jim Green",
-    phone: "14255667654",
-    status: "未取件",
-    bookinkTime: ""
-  },
-  {
-    id: "3",
-    name: "Joe Black",
-    phone: "12466888899",
-    status: "未取件",
-    bookinkTime: ""
-  }
-]
+];
+
+
 
 export default {
   data() {
@@ -110,9 +93,18 @@ export default {
       columns,
       loading: false,
       visible: false,
+      id: "",
+      name: "",
+      phone: "",
+      weight: "",
+    };
+  },
+  computed: {
+    items() {
+      return this.$store.getters.getItems;
     }
   },
-    methods: {
+  methods: {
     showModal() {
       this.visible = true;
     },
@@ -126,6 +118,9 @@ export default {
     handleCancel(e) {
       this.visible = false;
     },
+    add() {
+      this.$store.commit("addItems",{id:this.id,name:this.name,phone:this.phone,weight:this.weight});
+    }
   }
-}
+};
 </script>

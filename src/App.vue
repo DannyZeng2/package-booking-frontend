@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/admin">Admin</router-link> |
-      <router-link to="/about">User</router-link>
+      <router-link to="/user">User</router-link>
     </div>
     <router-view/>
   </div>
@@ -25,5 +25,10 @@
       color: #42b983;
     }
   }
+}
+
+#userinput{
+    width:350px;
+    height:30px;
 }
 </style>
